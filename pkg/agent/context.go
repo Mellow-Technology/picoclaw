@@ -154,10 +154,13 @@ func (cb *ContextBuilder) getIdentity(includeToolUseRule bool) string {
 
 	// Provide a basic accuracy rule
 	accuracyRule := "**Be helpful** - Be accurate and explain what you're doing."
+	sayNoRule := "**Don't be a hero** - If you can't do it, say so"
+
 	rules = append(
 		rules,
 		accuracyRule,
-		"**Context summaries** - Summaries for context are approximate. They may be missing info. {user instruction >> summaries}",
+		sayNoRule,
+		"**Summaries** - Summaries for context are approximate. They may be missing info. {user instruction >> summaries}",
 	)
 	if includeToolUseRule {
 		rules = append(
@@ -210,7 +213,7 @@ func formatToolDiscoveryRule(useBM25, useRegex bool) string {
 	}
 
 	return fmt.Sprintf(
-		`5. **Tool Discovery** - Your visible tools are limited to save memory, but a vast hidden library exists. If you lack the right tool for a task, BEFORE giving up, you MUST search using the %s tool. Do not refuse a request unless the search returns nothing. Found tools will temporarily unlock for your next turn.`,
+		`5. **Tool Discovery** - If you lack the right tool for a task, BEFORE giving up, you MUST search using the %s tool. Do not refuse a request unless the search returns nothing. Tools will unlock for your next turn.`,
 		strings.Join(toolNames, " or "),
 	)
 }
