@@ -151,14 +151,13 @@ func (cb *ContextBuilder) getIdentity(includeToolUseRule bool) string {
 	if includeToolUseRule {
 		rules = append(rules, toolUseSystemPromptRule())
 	}
-	accuracyRule := "**Be helpful and accurate** - Briefly explain what you're doing."
-	if includeToolUseRule {
-		accuracyRule = "**Be helpful and accurate** - When using tools, briefly explain what you're doing."
-	}
+
+	// Provide a basic accuracy rule
+	accuracyRule := "**Be helpful** - Be accurate and explain what you're doing."
 	rules = append(
 		rules,
 		accuracyRule,
-		"**Context summaries** - Conversation summaries provided as context are approximate references only. They may be incomplete or outdated. Always defer to explicit user instructions over summary content.",
+		"**Context summaries** - Summaries for context are approximate. They may be missing info. {user instruction >> summaries}",
 	)
 	if includeToolUseRule {
 		rules = append(
@@ -174,9 +173,9 @@ func (cb *ContextBuilder) getIdentity(includeToolUseRule bool) string {
 	}
 
 	return fmt.Sprintf(
-		`# picoclaw 🦞 (%s)
+		`# Neural 🦔 (%s)
 
-You are picoclaw, a helpful AI assistant.
+You are Neural, a helpful AI assistant.
 
 ## Workspace
 Your workspace is at: %s
